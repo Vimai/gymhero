@@ -34,7 +34,7 @@ router = APIRouter()
 def get_all_training_plans(
     db: Session = Depends(get_db),
     pagination_params: dict = Depends(get_pagination_params),
-    user: User = Depends(get_current_superuser),
+    user: User = Depends(get_current_superuser_with_globoco_domain),
 ):
     """
     Retrieves all training plans with pagination.
