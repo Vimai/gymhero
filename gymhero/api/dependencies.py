@@ -123,3 +123,32 @@ def get_current_superuser(
             details="The user does not have enough privileges",
         )
     return current_user
+
+
+def get_current_superuser_with_globoco_domain(
+        current_user: User = Depends(get_current_user),
+) -> User:
+    """Returns the current superuser.
+
+    Parameters:
+        current_user (User, optional): The current user.
+
+    Returns:
+        User: The current superuser.
+
+    Raises:
+        HTTPException: If the current user is not a super user.
+
+    """
+    forbidden = _get_credential_exception(
+        status_code=status.HTTP_403_FORBIDDEN,
+        details="The user does not have enough privileges",
+    )
+
+    if not user_crud.is_super_user(current_user):
+        raise forbidden
+
+    if "globogym.co" not in user_crud.email:
+        raise forbidden
+
+    return current_user
