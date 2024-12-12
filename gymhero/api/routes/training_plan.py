@@ -317,8 +317,8 @@ def update_training_plan(
     )
 
 
-@router.put(
-    "/{training_plan_id}/training-units/{training_unit_id}/add",
+@router.post(
+    "/{training_plan_id}/training-units/{training_unit_id}",
     response_model=Optional[TrainingPlanInDB],
     status_code=status.HTTP_200_OK,
 )

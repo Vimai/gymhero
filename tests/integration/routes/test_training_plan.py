@@ -303,8 +303,8 @@ def test_can_get_plans_for_super_user(
 
 def test_can_add_training_unit_to_training_plan(test_client, valid_jwt_token):
     # training unit doesn't exist
-    response = test_client.put(
-        "/training-plans/1/training-units/1/add",
+    response = test_client.post(
+        "/training-plans/1/training-units/1",
         headers={"Authorization": valid_jwt_token},
     )
     assert response.status_code == 404
@@ -315,8 +315,8 @@ def test_can_add_training_unit_to_training_plan(test_client, valid_jwt_token):
         json={"name": "test", "description": "test"},
     )
 
-    response = test_client.put(
-        "/training-plans/1/training-units/1/add",
+    response = test_client.post(
+        "/training-plans/1/training-units/1",
         headers={"Authorization": valid_jwt_token},
     )
     assert (
@@ -329,20 +329,20 @@ def test_can_add_training_unit_to_training_plan(test_client, valid_jwt_token):
         and response.json()["training_units"][0]["name"] == "test"
     )
 
-    response = test_client.put(
-        "/training-plans/1/training-units/1/add",
+    response = test_client.post(
+        "/training-plans/1/training-units/1",
         headers={"Authorization": valid_jwt_token},
     )
     assert response.status_code == 409
 
-    response = test_client.put(
-        "/training-plans/551/training-units/1/add",
+    response = test_client.post(
+        "/training-plans/551/training-units/1",
         headers={"Authorization": valid_jwt_token},
     )
     assert response.status_code == 404
 
-    response = test_client.put(
-        "/training-plans/6/training-units/1/add",
+    response = test_client.post(
+        "/training-plans/6/training-units/1",
         headers={"Authorization": valid_jwt_token},
     )
     assert (
@@ -356,8 +356,8 @@ def test_can_add_training_unit_to_training_plan(test_client, valid_jwt_token):
     )
 
     jwt_two = "Bearer " + create_access_token(2)
-    response = test_client.put(
-        "/training-plans/7/training-units/1/add",
+    response = test_client.post(
+        "/training-plans/7/training-units/1",
         headers={"Authorization": jwt_two},
     )
     assert (
@@ -370,8 +370,8 @@ def test_can_add_training_unit_to_training_plan(test_client, valid_jwt_token):
         and response.json()["training_units"][0]["name"] == "test"
     )
 
-    response = test_client.put(
-        "/training-plans/3/training-units/1/add",
+    response = test_client.post(
+        "/training-plans/3/training-units/1",
         headers={"Authorization": jwt_two},
     )
     assert response.status_code == 403
@@ -417,8 +417,8 @@ def test_can_remove_training_unit_from_training_plan(test_client, valid_jwt_toke
         json={"name": "test", "description": "test"},
     )
 
-    response = test_client.put(
-        "/training-plans/1/training-units/1/add",
+    response = test_client.post(
+        "/training-plans/1/training-units/1",
         headers={"Authorization": valid_jwt_token},
     )
 
